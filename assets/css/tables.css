@@ -1,0 +1,43 @@
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+th, td {
+    border: 1px solid #e2e8f0;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #374151;
+}
+
+tr:nth-child(even) { 
+    background: #f8fafc; 
+}
+
+tr:hover { 
+    background: #eaf2fe; 
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 640px) {
+    table { 
+        font-size: 13px; 
+    }
+    th, td {
+        padding: 6px 8px;
+    }
+}

@@ -1,0 +1,142 @@
+/* Form elements */
+label {
+    display: block;
+    margin-top: 14px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #374151;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #f9fafb;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #2563eb;
+    background: #ffffff;
+}
+
+textarea { min-height: 120px; resize: vertical; }
+
+.form-row { margin-bottom: 16px; }
+
+/* Login form specific */
+.login-form {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-help {
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* Form validation and feedback */
+.form-error {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.form-success {
+    color: #059669;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Form help text */
+.form-help {
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Request form specific */
+.request-form {
+    max-width: 600px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.form-actions .btn-primary,
+.form-actions .btn-secondary {
+    margin: 0;
+}
+
+.request-tips {
+    max-width: 600px;
+}
+
+/* Mini forms for admin tables */
+.inline-form {
+    margin: 0;
+}
+
+.form-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+}
+
+.mini-select, .mini-input {
+    width: 100%;
+    padding: 4px 6px;
+    margin: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    background: #f9fafb;
+    font-size: 12px;
+}
+
+.btn-mini {
+    padding: 4px 8px;
+    margin: 2px 0;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+/* Text styling utilities */
+.text-muted {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.text-danger {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+@media (max-width: 640px) {
+    .form-mini {
+        gap: 2px;
+    }
+    
+    .mini-select, .mini-input {
+        font-size: 11px;
+        padding: 3px 5px;
+    }
+    
+    .btn-mini {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+}
