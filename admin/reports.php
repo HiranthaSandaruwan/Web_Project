@@ -19,8 +19,6 @@ $overdue      = $mysqli->query("SELECT request_id, device_type, due_date FROM re
 ?>
 
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
 	<h2>Reports</h2>
 

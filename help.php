@@ -1,7 +1,8 @@
-<?php require_once __DIR__ . '/config.php'; ?>
+<?php 
+require_once __DIR__ . '/config.php'; 
+$page_title = "Help & Support";
+?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
     <h1>Help Center</h1>
     <p>Welcome to the Hardware Repair Request Tracker help center. Find answers to common questions below.</p>

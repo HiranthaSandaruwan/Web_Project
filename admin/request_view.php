@@ -44,8 +44,6 @@ if ($row){
 }
 ?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
 	<h2>Request Detail (Admin)</h2>
 	<?php if($msg) echo '<div class="success">'.htmlspecialchars($msg).'</div>'; ?>

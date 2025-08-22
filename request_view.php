@@ -46,8 +46,6 @@ if ($row) {
 }
 ?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
     <h2>Request Details</h2>
 

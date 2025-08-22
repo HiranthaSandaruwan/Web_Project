@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
+$page_title = "Login";
 
 $msg = '';
 
@@ -56,10 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
 
 <div class="container">
-    <div class="login-form">
+    <div style="max-width: 400px; margin: 0 auto;">
         <h2>Login to Hardware Tracker</h2>
         <p class="small">Use your credentials to access the repair tracking system</p>
         

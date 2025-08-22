@@ -1,7 +1,8 @@
-<?php require_once __DIR__ . '/config.php'; ?>
+<?php 
+require_once __DIR__ . '/config.php'; 
+$page_title = "Features";
+?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
     <h1>System Features</h1>
     <p>Discover what our Hardware Repair Request Tracker can do for you.</p>

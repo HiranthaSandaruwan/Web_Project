@@ -1,6 +1,7 @@
 <?php
 // List only the logged in user's requests
 require_once __DIR__ . '/config.php';
+$page_title = "My Requests";
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 	header('Location: ' . url('auth/login.php'));
@@ -15,7 +16,6 @@ $hasCategory = false; if($cchk=$mysqli->query("SHOW COLUMNS FROM requests LIKE '
 $res = $mysqli->query("SELECT * $condPrev FROM requests WHERE user_id = $uid ORDER BY created_at DESC");
 ?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
 
 <div class="container">
 	<h2>My Requests</h2>

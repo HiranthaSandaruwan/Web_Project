@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config.php';
+$page_title = "New Request";
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header('Location: ' . url('auth/login.php'));
@@ -38,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
 
 <div class="container">
     <h1>Submit New Repair Request</h1>

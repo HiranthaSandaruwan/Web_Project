@@ -34,8 +34,6 @@ $all = $mysqli->query('SELECT r.*, u.username FROM requests r JOIN users u ON r.
 ?>
 
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
-
 <div class="container">
     <h1>Manage All Requests</h1>
     <p>Update status, priority, due dates, add notes<?php if($hasCategory) echo ', and filter by category'; ?>.</p>
@@ -55,18 +53,22 @@ $all = $mysqli->query('SELECT r.*, u.username FROM requests r JOIN users u ON r.
     <?php endif; ?>
     
     <div class="requests-table">
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Device</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <?php if($hasCategory): ?><th>Category</th><?php endif; ?>
-                <th>Due Date</th>
-                <th>Quick Update</th>
-                <th>View</th>
-            </tr>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <?php if($hasCategory): ?><th>Category</th><?php endif; ?>
+                        <th>Due Date</th>
+                        <th>Quick Update</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
             <?php while ($r = $all->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $r['request_id']; ?></td>
@@ -130,11 +132,13 @@ $all = $mysqli->query('SELECT r.*, u.username FROM requests r JOIN users u ON r.
                         </form>
                     </td>
                     <td>
-                        <a href="<?php echo url('admin/request_view.php?id=' . $r['request_id']); ?>" class="btn-secondary">View</a>
+                        <a href="<?php echo url('admin/request_view.php?id=' . $r['request_id']); ?>" class="btn-secondary btn-mini">View</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

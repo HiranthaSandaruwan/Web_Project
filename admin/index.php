@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../config.php';
+$page_title = "Admin Dashboard";
+
 // Restrict to admin role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 	header('Location: ' . url('auth/login.php'));
@@ -26,89 +28,113 @@ $overdue = $mysqli->query("SELECT COUNT(*) c FROM requests
 ?>
 
 <?php include BASE_PATH . '/partials/header.php'; ?>
-<?php include BASE_PATH . '/partials/nav.php'; ?>
 
 <div class="container">
-	<h1>Admin Dashboard</h1>
-	<p>Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here's your system overview.</p>
-
-	<h3>System Statistics</h3>
-	<div class="flex">
-		<div class="card">
-			<h4>Total Users</h4>
-			<div class="stat-number"><?php echo $totalUsers; ?></div>
-			<p class="small">Registered users in system</p>
-		</div>
-		<div class="card">
-			<h4>Total Requests</h4>
-			<div class="stat-number"><?php echo $totalReq; ?></div>
-			<p class="small">All time requests</p>
-		</div>
-		<div class="card">
-			<h4>Pending</h4>
-			<div class="stat-number"><?php echo $pending; ?></div>
-			<p class="small">Awaiting review</p>
-		</div>
-		<div class="card">
-			<h4>In Progress</h4>
-			<div class="stat-number"><?php echo $inProgress; ?></div>
-			<p class="small">Being worked on</p>
-		</div>
+	<div class="dashboard-welcome">
+		<h1>Admin Dashboard</h1>
+		<p>Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here's your system overview.</p>
 	</div>
 
-	<div class="flex">
-		<div class="card">
-			<h4>Completed</h4>
-			<div class="stat-number"><?php echo $completed; ?></div>
-			<p class="small">Successfully completed</p>
-		</div>
-		<div class="card">
-			<h4>Rejected</h4>
-			<div class="stat-number"><?php echo $rejected; ?></div>
-			<p class="small">Could not be processed</p>
-		</div>
-		<div class="card">
-			<h4>Overdue</h4>
-			<div class="stat-number"><?php echo $overdue; ?></div>
-			<p class="small">Past due date</p>
-		</div>
-		<div class="card">
-			<h4>Quick Actions</h4>
-			<div class="dashboard-actions">
-				<a href="<?php echo url('admin/requests.php'); ?>" class="btn-primary">Manage Requests</a>
-				<a href="<?php echo url('admin/users.php'); ?>" class="btn-secondary">Manage Users</a>
+	<?php if ($overdue > 0): ?>
+		<div class="notification-banner">
+			<div class="notification-icon">⚠️</div>
+			<div class="notification-content">
+				<div class="notification-title">Attention Required</div>
+				<div class="notification-message"><?php echo $overdue; ?> request(s) are overdue and need immediate attention.</div>
 			</div>
+			<a href="admin/requests.php" class="btn-secondary">Review Now</a>
+		</div>
+	<?php endif; ?>
+
+	<div class="stats-grid">
+		<div class="stat-card">
+			<div class="stat-number"><?php echo $totalUsers; ?></div>
+			<div class="stat-label">Total Users</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-number"><?php echo $totalReq; ?></div>
+			<div class="stat-label">Total Requests</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-number"><?php echo $pending; ?></div>
+			<div class="stat-label">Pending</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-number" style="color: var(--danger-color);"><?php echo $overdue; ?></div>
+			<div class="stat-label">Overdue</div>
 		</div>
 	</div>
 
-	<h3 class="mt">Recent Requests</h3>
-	<div class="recent-requests">
-		<table>
-			<tr>
-				<th>ID</th>
-				<th>User</th>
-				<th>Device</th>
-				<th>Status</th>
-				<th>Created</th>
-				<th>Action</th>
-			</tr>
-			<?php if ($recentReq->num_rows > 0): ?>
-				<?php while ($row = $recentReq->fetch_assoc()): ?>
+	<div class="stats-grid">
+		<div class="stat-card">
+			<div class="stat-number" style="color: var(--primary-color);"><?php echo $inProgress; ?></div>
+			<div class="stat-label">In Progress</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-number" style="color: var(--success-color);"><?php echo $completed; ?></div>
+			<div class="stat-label">Completed</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-number" style="color: var(--gray-500);"><?php echo $rejected; ?></div>
+			<div class="stat-label">Rejected</div>
+		</div>
+		<div class="stat-card">
+			<!-- Empty for layout -->
+		</div>
+	</div>
+
+	<div class="quick-actions">
+		<a href="<?php echo url('admin/requests.php'); ?>" class="action-card">
+			<div class="action-icon">📋</div>
+			<div class="action-title">Manage Requests</div>
+			<div class="action-description">View and update all repair requests</div>
+		</a>
+		<a href="<?php echo url('admin/users.php'); ?>" class="action-card">
+			<div class="action-icon">👥</div>
+			<div class="action-title">Manage Users</div>
+			<div class="action-description">Add, edit, and manage system users</div>
+		</a>
+		<a href="<?php echo url('admin/reports.php'); ?>" class="action-card">
+			<div class="action-icon">📊</div>
+			<div class="action-title">View Reports</div>
+			<div class="action-description">Generate and view system reports</div>
+		</a>
+	</div>
+
+	<div class="card">
+		<h3>Recent Requests</h3>
+		<div class="table-container">
+			<table>
+				<thead>
 					<tr>
-						<td><?php echo $row['request_id']; ?></td>
-						<td><?php echo htmlspecialchars($row['username']); ?></td>
-						<td><?php echo htmlspecialchars($row['device_type']); ?></td>
-						<td><span class="badge badge-<?php echo strtolower(str_replace(' ', '', $row['status'])); ?>"><?php echo $row['status']; ?></span></td>
-						<td><?php echo date('M j', strtotime($row['created_at'])); ?></td>
-						<td><a href="<?php echo url('admin/request_view.php?id=' . $row['request_id']); ?>">View</a></td>
+						<th>ID</th>
+						<th>User</th>
+						<th>Device</th>
+						<th>Status</th>
+						<th>Created</th>
+						<th>Action</th>
 					</tr>
-				<?php endwhile; ?>
-			<?php else: ?>
-				<tr>
-					<td colspan="6" class="text-center">No requests found</td>
-				</tr>
-			<?php endif; ?>
-		</table>
+				</thead>
+				<tbody>
+					<?php if ($recentReq->num_rows > 0): ?>
+						<?php while ($row = $recentReq->fetch_assoc()): ?>
+							<tr>
+								<td><?php echo $row['request_id']; ?></td>
+								<td><?php echo htmlspecialchars($row['username']); ?></td>
+								<td><?php echo htmlspecialchars($row['device_type']); ?></td>
+								<td><span class="badge badge-<?php echo strtolower(str_replace(' ', '', $row['status'])); ?>"><?php echo $row['status']; ?></span></td>
+								<td><?php echo date('M j', strtotime($row['created_at'])); ?></td>
+								<td><a href="<?php echo url('admin/request_view.php?id=' . $row['request_id']); ?>" class="btn-secondary btn-mini">View</a></td>
+							</tr>
+						<?php endwhile; ?>
+					<?php else: ?>
+						<tr>
+							<td colspan="6" class="text-center">No requests found</td>
+						</tr>
+					<?php endif; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
