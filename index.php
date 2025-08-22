@@ -14,9 +14,9 @@
                 <div class="card mt">
                     <h3>Admin Quick Actions</h3>
                     <div class="flex">
-                        <a href="requests.php" class="btn-secondary">View All Requests</a>
-                        <a href="users.php" class="btn-secondary">Manage Users</a>
-                        <a href="reports.php" class="btn-secondary">View Reports</a>
+                        <a href="Admin/requests.php" class="btn-secondary">View All Requests</a>
+                        <a href="Admin/users.php" class="btn-secondary">Manage Users</a>
+                        <a href="Admin/reports.php" class="btn-secondary">View Reports</a>
                     </div>
                 </div>
             <?php else: ?>
