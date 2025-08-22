@@ -7,16 +7,26 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 }
 
 $msg = '';
+// Detect optional new schema columns
+$hasCategory = false;
+if ($cc = $mysqli->query("SHOW COLUMNS FROM requests LIKE 'category'")) { $hasCategory = $cc->num_rows>0; }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $device   = trim($_POST['device_type']);
     $model    = trim($_POST['model']);
     $serial   = trim($_POST['serial_no']);
     $priority = $_POST['priority'];
+    $category = $_POST['category'] ?? '';
     $desc     = trim($_POST['description']);
-
-    if ($device !== '' && $desc !== '') {
-        $stmt = $mysqli->prepare('INSERT INTO requests (user_id, device_type, model, serial_no, priority, description) VALUES (?,?,?,?,?,?)');
-        $stmt->bind_param('isssss', $_SESSION['user_id'], $device, $model, $serial, $priority, $desc);
+    $validCats = ['Hardware Failure','Software Issue','Physical Damage','Other'];
+    if ($device !== '' && $desc !== '' && (!$hasCategory || in_array($category,$validCats,true))) {
+        if ($hasCategory) {
+            $stmt = $mysqli->prepare('INSERT INTO requests (user_id, device_type, model, serial_no, priority, category, description, created_at) VALUES (?,?,?,?,?,?,?,NOW())');
+            $stmt->bind_param('issssss', $_SESSION['user_id'], $device, $model, $serial, $priority, $category, $desc);
+        } else {
+            // Fallback for pre-migration schema
+            $stmt = $mysqli->prepare('INSERT INTO requests (user_id, device_type, model, serial_no, priority, description, created_at) VALUES (?,?,?,?,?,?,NOW())');
+            $stmt->bind_param('isssss', $_SESSION['user_id'], $device, $model, $serial, $priority, $desc);
+        }
         if ($stmt->execute()) {
             $msg = 'Request saved';
         } else {
@@ -75,6 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
                 <small class="form-help">Select based on how urgently you need the repair</small>
             </div>
+
+            <?php if ($hasCategory) { ?>
+            <div class="form-row">
+                <label>Category *</label>
+                <select name="category" required>
+                    <option value="">-- Select Category --</option>
+                    <?php $sel = $_POST['category'] ?? ''; foreach(['Hardware Failure','Software Issue','Physical Damage','Other'] as $c){ $s=$sel===$c?'selected':''; echo '<option '.$s.'>'.htmlspecialchars($c).'</option>'; } ?>
+                </select>
+            </div>
+            <?php } ?>
 
             <div class="form-row">
                 <label>Problem Description *</label>
