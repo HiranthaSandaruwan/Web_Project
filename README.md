@@ -1,177 +1,148 @@
 Hardware Repair Request Tracker
 
-A simple web app for students and staff to submit hardware repair requests, and for admins to manage them.
-Built entirely with HTML, CSS, JavaScript, PHP, and MySQL (no frameworks, libraries, or external APIs).
-✅ Project Rules & Requirements
+A simple web app for students and staff to submit hardware repair requests. Admins can view and manage all requests. Built using ONLY: HTML, CSS, JavaScript, PHP, and MySQL (no frameworks, libraries, or external APIs) per project rules.
 
-    Must use pure HTML, CSS, JS, PHP, MySQL
+✅ Project Rules (Still Enforced)
+- Pure technologies only (no Laravel, Bootstrap, jQuery, etc.)
+- No external APIs
+- Basic validation only (no CSRF tokens, no advanced security)
+- Plain‑text passwords (educational requirement; NOT secure for production)
+- Two roles: admin, user
+- Protected pages require login
 
-    No frameworks, external libraries, or APIs
+⚠️ Security Notice
+Passwords are stored in plain text because the brief explicitly disallows hashing/security layers. Do NOT deploy this version to a public/real environment. To harden later: add password_hash(), sessions hardening, CSRF tokens, input sanitization layers.
 
-    Only basic form validation (no advanced security, no hashing, no CSRF)
+🎨 UI / Frontend Status
+- Single consolidated stylesheet: `assets/css/unified-styles.css` (replaced multiple old CSS files)
+- Light & Dark theme toggle (stored in localStorage)
+- Modern fixed sidebar navigation (icons + grouped sections)
+- Responsive layout (mobile sidebar overlay)
+- Simplified validation: only error messages (no green "looks good")
 
-    Roles: Admin and User
+🧭 Navigation
+Sidebar items adapt to role. The legacy `partials/nav.php` exists for backward compatibility but the new sidebar is rendered inside `partials/header.php`.
 
-    Unauthorized users cannot access protected pages
+👥 Current Feature Matrix
+User:
+- Login / Logout
+- Submit new repair request
+- View only their own requests
+- View request details (status, priority, description)
+- Help & Features pages
 
-    Required pages: Login, Home, Admin, Functionalities, Help
+Admin:
+- Login / Logout
+- Admin dashboard (overview widgets / navigation)
+- View all requests
+- Update status, priority, due date (where implemented in forms)
+- Add users (choose role at creation)
+- Delete users (cannot delete themselves)
+- Basic reports page (tables)
+- Help & Features pages
 
-👥 System Roles & Functions
-1. User (students/staff)
+Differences vs Original Plan:
+- User edit/role change after creation: NOT implemented (only set on create)
+- Password hashing: intentionally removed (plain text per requirements)
+- Additional internal tables (history, comments) prepared but UI integration may be partial
 
-    Login/Logout
+🗄 Database Schema (Current)
+Full schema is in `database.sql`. Summary of main tables below.
 
-    Submit repair requests (device type, model, serial no, description, priority)
+users
+- user_id INT PK AUTO_INCREMENT
+- username VARCHAR(50) UNIQUE
+- password VARCHAR(255) (plain text currently)
+- role ENUM('admin','user')
+- last_login TIMESTAMP NULL
+- created_at TIMESTAMP
 
-    View My Requests (list only their own requests)
+requests
+- request_id INT PK
+- user_id FK -> users
+- device_type, model, serial_no
+- priority ENUM('Low','Medium','High')
+- category ENUM('Hardware Failure','Software Issue','Physical Damage','Other')
+- description TEXT
+- status ENUM('Pending','In Progress','Completed','Rejected')
+- due_date DATE NULL
+- created_at / updated_at timestamps
 
-    View Request Details (status and info)
+comments (for request discussion – backend tables ready)
+- comment_id PK
+- request_id FK -> requests
+- user_id FK -> users
+- comment_text, admin_only (0/1)
+- created_at
 
-    Help Page (how to use the system)
+request_history (audit of field changes)
+- history_id PK
+- request_id FK -> requests
+- field_changed, old_value, new_value
+- changed_at
 
-👉 Users cannot see or manage other people’s requests.
-2. Admin
+Seed Users
+INSERT INTO users (username,password,role) VALUES ('uoc','uoc','user');
+INSERT INTO users (username,password,role) VALUES ('admin','admin','admin');
 
-    Login/Logout
+� Folder Structure (Current Key Files)
+/assets
+  /css/unified-styles.css  (all styling + themes)
+  /js/app.js               (theme toggle, sidebar, validation)
+/auth
+  login.php, logout.php
+/admin
+  index.php, users.php, requests.php, request_view.php, reports.php
+/partials
+  header.php (includes sidebar) / nav.php (legacy) / footer.php
+config.php (wraps paths + includes db)
+db.php (DB connection)
+database.sql (full schema & seed data)
+index.php, features.php, help.php
+request_new.php, my_requests.php, request_view.php
 
-    Dashboard (overview of system functions)
-
-    Manage Users
-
-        Add a new user
-
-        Edit user details or role
-
-        Delete a user (except themselves)
-
-    Manage Requests
-
-        View all requests from all users
-
-        Update request status (Pending, In Progress, Completed, Rejected)
-
-        Change request priority
-
-        Assign due dates
-
-    Reports (basic tables only)
-
-        Requests by status (Pending/Completed/etc.)
-
-        Requests by device type
-
-        Requests per user
-
-        Requests created this month
-
-        Overdue requests (if due dates are set)
-
-    Help Page
-
-👉 Admin has full control of the system.
-📂 Folder Structure
-
-/ (document root)
-  /assets
-    /css/styles.css
-    /js/app.js
-  /auth
-    login.php
-    logout.php
-  /admin
-    index.php
-    users.php
-    requests.php
-    request_view.php
-    reports.php
-  /partials
-    header.php
-    nav.php
-    footer.php
-  db.php
-  index.php             # Home
-  features.php          # Functionalities
-  help.php              # Help / How-to
-  request_new.php       # User: create request
-  my_requests.php       # User: list own requests
-  request_view.php      # User: view request details
-
-🗄 Database Setup
-
-CREATE DATABASE repair_tracker CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE repair_tracker;
-
--- Users
-CREATE TABLE users (
-  user_id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role ENUM('admin','user') NOT NULL DEFAULT 'user',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Requests
-CREATE TABLE requests (
-  request_id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  device_type VARCHAR(100) NOT NULL,
-  model VARCHAR(100),
-  serial_no VARCHAR(100),
-  priority ENUM('Low','Medium','High') DEFAULT 'Medium',
-  description TEXT NOT NULL,
-  status ENUM('Pending','In Progress','Completed','Rejected') DEFAULT 'Pending',
-  due_date DATE NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NULL,
-  FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
-Default Users
-
-INSERT INTO users (username, password, role) VALUES ('uoc', 'uoc', 'user');
-INSERT INTO users (username, password, role) VALUES ('admin', 'admin', 'admin');
-
-🔌 Database Connection
-
-<?php
-// db.php
+🔌 Database Connection Example (`db.php`)
+```
 $dbhost='localhost';
 $dbuser='root';
 $dbpass='2323';
 $dbname='repair_tracker';
-
-$mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-if ($mysqli->connect_errno) {
-  die('DB Connect failed: '.$mysqli->connect_error);
-}
+$mysqli = new mysqli($dbhost,$dbuser,$dbpass,$dbname);
+if($mysqli->connect_errno){ die('DB Connect failed: '.$mysqli->connect_error); }
 $mysqli->set_charset('utf8mb4');
-?>
+```
 
-Include in pages with:
+▶️ Setup & Run
+1. Install XAMPP/WAMP (or LAMP on Linux)
+2. Place project folder inside `htdocs/` (XAMPP) or web root
+3. Create DB and import `database.sql`
+4. Adjust credentials in `db.php` if needed
+5. Visit: `http://localhost/Web_Project/auth/login.php`
+6. Login using:
+   - User: `uoc / uoc`
+   - Admin: `admin / admin`
 
-<?php require_once __DIR__ . '/db.php'; ?>
+🌗 Theme Usage
+- Toggle button in sidebar footer switches Light/Dark
+- Preference stored in browser localStorage (`theme` key)
+Shortcut: (Ctrl + D) may toggle theme (depends on JS event map)
 
-▶️ How to Run
+🚧 Known Limitations / Next Steps
+- No password hashing (intentional for brief) – add later for security
+- No user edit UI yet (only create/delete)
+- Comments and history tables not fully surfaced in UI
+- Minimal server-side validation
 
-    Install XAMPP/WAMP/LAMP
-
-    Place this folder inside htdocs/ (XAMPP) or web root
-
-    Start Apache & MySQL
-
-    Import SQL from section above
-
-    Update db.php with your DB credentials
-
-    Open: http://localhost/your-folder/auth/login.php
-
-    Login with:
-
-        User → uoc / uoc
-
-        Admin → admin / admin
+🛠 Possible Future Improvements (Optional)
+- Add password hashing & migration script
+- Implement inline request history & comment threads UI
+- Add pagination & search for requests
+- Role-based edit of user accounts (change role/password reset)
+- Export reports (CSV)
 
 👥 Credits
-
 Built by <Your Group Name/Numbers>
 University group project — fully hand-coded, without frameworks or external libraries.
+
+---
+Educational prototype – not production hardened.
