@@ -60,23 +60,8 @@ function updateThemeToggle(theme) {
 // SIDEBAR NAVIGATION
 // ========================================
 function initializeSidebar() {
-    const sidebarToggle = document.getElementById('sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    
-    // Load saved sidebar state
-    const sidebarCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
-    if (sidebarCollapsed && sidebar) {
-        sidebar.classList.add('collapsed');
-    }
-    
-    // Desktop sidebar toggle
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
-        });
-    }
     
     // Mobile menu toggle
     if (mobileMenuToggle && sidebar) {
@@ -227,8 +212,6 @@ function validateField(field) {
     // Display validation result
     if (!isValid) {
         showFieldError(field, message);
-    } else if (value) {
-        showFieldSuccess(field);
     } else {
         clearFieldMessages(field);
     }
@@ -247,18 +230,6 @@ function showFieldError(field, message) {
     field.parentNode.insertBefore(errorDiv, field.nextSibling);
 }
 
-function showFieldSuccess(field) {
-    clearFieldMessages(field);
-    field.classList.add('success');
-    field.classList.remove('error');
-    
-    const successDiv = document.createElement('div');
-    successDiv.className = 'form-success';
-    successDiv.innerHTML = `<span>✅</span> Looks good!`;
-    
-    field.parentNode.insertBefore(successDiv, field.nextSibling);
-}
-
 function clearFieldError(field) {
     field.classList.remove('error');
     clearFieldMessages(field);
@@ -267,10 +238,8 @@ function clearFieldError(field) {
 function clearFieldMessages(field) {
     const parent = field.parentNode;
     const existingError = parent.querySelector('.form-error');
-    const existingSuccess = parent.querySelector('.form-success');
     
     if (existingError) existingError.remove();
-    if (existingSuccess) existingSuccess.remove();
     
     field.classList.remove('error', 'success');
 }
@@ -434,10 +403,6 @@ function showValidationError(field, message) {
     showFieldError(field, message);
 }
 
-function showValidationSuccess(field) {
-    showFieldSuccess(field);
-}
-
 function clearValidationError(field) {
     clearFieldError(field);
 }
@@ -468,13 +433,6 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
         e.preventDefault();
         toggleTheme();
-    }
-    
-    // Ctrl/Cmd + B for sidebar toggle
-    if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-        e.preventDefault();
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        if (sidebarToggle) sidebarToggle.click();
     }
     
     // Escape key to close modals/menus

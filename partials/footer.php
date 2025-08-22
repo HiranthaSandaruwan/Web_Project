@@ -9,7 +9,7 @@
 		<span>&copy; 2025 Hardware Request Manager - Built with ❤️</span>
 	</div>
 	<div style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">
-		<span>💡 Press <kbd>Ctrl+D</kbd> for dark mode • <kbd>Ctrl+B</kbd> for sidebar</span>
+		<span>💡 Press <kbd>Ctrl+D</kbd> for dark mode</span>
 	</div>
 </div>
 

@@ -24,9 +24,6 @@ if (!defined('BASE_PATH')) {
 				<span class="emoji">🔧</span>
 				<span class="text">HW Manager</span>
 			</div>
-			<button id="sidebar-toggle" class="sidebar-toggle" title="Toggle Sidebar">
-				<span>≡</span>
-			</button>
 		</div>
 		
 		<div class="sidebar-nav">

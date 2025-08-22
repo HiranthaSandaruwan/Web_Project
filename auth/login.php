@@ -25,7 +25,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $res = $stmt->get_result();
         if ($row = $res->fetch_assoc()) {
-            if ($p === $row['password']) {
+            // Support both plain text passwords (old) and hashed passwords (new)
+            $passwordValid = false;
+            if (password_verify($p, $row['password'])) {
+                // New hashed password
+                $passwordValid = true;
+            } elseif ($p === $row['password']) {
+                // Old plain text password - for backwards compatibility
+                $passwordValid = true;
+            }
+            
+            if ($passwordValid) {
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['role'] = $row['role'];
