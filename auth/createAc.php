@@ -33,12 +33,12 @@
     <link rel="stylesheet" href="../assets/css/unified-styles.css">
     <style>
         .border{
-            border: 1px solid #ccc;
+            border: 1px solid #0a0909ff;
             border-radius: 8px;
             padding: 20px;
             margin: 50px auto;
             max-width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 12px 16px rgba(0, 0, 0, 0.1);
             width:450px;
             height: 400px;
         }
@@ -47,7 +47,7 @@
             place-items: center;
             height: 100vh;
         }
-        .form{
+        .form{         
             display:grid;
             place-items: center;
             gap: 10px;
