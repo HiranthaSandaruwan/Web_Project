@@ -12,7 +12,7 @@ if ($check = $mysqli->query("SHOW COLUMNS FROM users LIKE 'last_login'")) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = trim($_POST['username']);
-    $p = trim($_POST['password']);
+    $p = SHA1(trim($_POST['password']));
 
     if ($u !== '' && $p !== '') {
             // Choose query depending on schema availability
@@ -67,7 +67,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include BASE_PATH . '/partials/auth_header.php'; ?>
+<style>
+    .marging-decoration{
+        /*padding-top:20px;*/
+        padding-bottom:20px;
+    }
+    .login-card a{
+        text-decoration: none;
+        color: var(--primary);
+        font-size: 14px;
+        cursor: pointer
 
+    }
+    .login-card a:hover{
+        box-shadow: 2px 4px 8px 0px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        text-decoration: underline;
+    }
+</style>
 <div class="login-wrapper">
     <div class="login-card">
         <h1 class="login-brand">🔧 RepairTracker</h1>
@@ -86,7 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="btn-primary">Log In</button>
             </div>
         </form>
-        
+        <div class="marging-decoration">
+             <a href="createAC.php">Don't have an anccount?</a> | <a haref="forgotPassword.php">Forgot Password?</a>
+        </div>
         <div class="demo-info">
             <strong>🧪 Demo Accounts:</strong><br>
             👤 User: <code>uoc</code> / <code>uoc</code><br>
@@ -96,4 +115,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <?php include BASE_PATH . '/partials/auth_footer.php'; ?>
-////////
