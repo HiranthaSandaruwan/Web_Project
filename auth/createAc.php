@@ -18,12 +18,13 @@
         } else {
             $stmt=$mysqli->prepare("INSERT INTO users(username,password,role,created_at) values(?,?,?,?)");
             $stmt->bind_param("ssss", $u, $hashed_password, $role, $created_at);
-        }   if($stmt->execute()){
+             if($stmt->execute()){
             echo "<script>alert('Account created successfully!'); window.location.href='login.php';</script>";
-        } else {
-            echo "<script>alert('Error creating account. Please try again.');</script>";
-        }
-        $stmt->close();
+            } else {
+                echo "<script>alert('Error creating account. Please try again.');</script>";
+            }
+            $stmt->close();
+        }  
     }
 ?>
 <html>
