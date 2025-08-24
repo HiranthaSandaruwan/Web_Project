@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin') {
 ?>
 
 <div class="container">
-    <?php if (isset($_SESSION['user_id'])): ?>
+        <?php // Auth guard in config ensures user is logged in. Show role-specific dashboard only. ?>
         <?php if ($_SESSION['role'] === 'admin'): ?>
             <!-- Admin Dashboard -->
             <div class="dashboard-welcome">
@@ -96,7 +96,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin') {
                 </a>
             </div>
             
-        <?php else: ?>
+    <?php else: ?>
             <!-- User Dashboard -->
             <div class="dashboard-welcome">
                 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
@@ -142,50 +142,6 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin') {
                     <div class="action-description">Find answers and support</div>
                 </a>
             </div>
-        <?php endif; ?>
-        
-    <?php else: ?>
-        <!-- Guest Welcome -->
-        <div class="welcome-section">
-            <h1>Hardware Repair Request Tracker</h1>
-            <p>Our hardware repair tracking system helps students and staff submit repair requests and track their progress efficiently.</p>
-            
-            <div class="card text-center">
-                <h3>Get Started</h3>
-                <p>Please login to submit repair requests or manage the system.</p>
-                <a href="auth/login.php" class="btn-primary">Login to Continue</a>
-            </div>
-        </div>
-    <?php endif; ?>
-    
-    <?php if (!isset($_SESSION['user_id'])): ?>
-    <div class="info-cards">
-        <div class="card">
-            <h3>For Students & Staff</h3>
-            <ul>
-                <li>Submit repair requests online</li>
-                <li>Track request status in real-time</li>
-                <li>View repair history</li>
-                <li>Get email notifications</li>
-            </ul>
-        </div>
-        
-        <div class="card">
-            <h3>Supported Devices</h3>
-            <ul>
-                <li>Laptops & Desktops</li>
-                <li>Tablets & Smartphones</li>
-                <li>Printers & Scanners</li>
-                <li>Networking Equipment</li>
-            </ul>
-        </div>
-        
-        <div class="card">
-            <h3>Need Help?</h3>
-            <p>Visit our <a href="help.php">Help Center</a> for guides on how to use the system or contact support.</p>
-            <a href="help.php" class="btn-secondary">Get Help</a>
-        </div>
-    </div>
     <?php endif; ?>
 </div>
 

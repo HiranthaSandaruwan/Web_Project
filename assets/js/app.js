@@ -1,4 +1,4 @@
-// Enhanced Hardware Request Management System - Complete JS
+// RepairTracker Pro - Enhanced Hardware Request Management System
 // Global utility functions (backwards compatibility)
 function confirmDelete(){ return confirm('Are you sure you want to delete this item?'); }
 
@@ -7,53 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    initializeTheme();
     initializeSidebar();
     initializeFormValidation();
     initializeDashboardAnimations();
     initializeTableInteractions();
     initializeNotifications();
-}
-
-// ========================================
-// THEME SYSTEM
-// ========================================
-function initializeTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    
-    // Apply saved theme
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeToggle(savedTheme);
-    
-    // Theme toggle functionality
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeToggle(newTheme);
-    
-    // Add smooth transition effect
-    document.body.style.transition = 'all 0.3s ease';
-    setTimeout(() => {
-        document.body.style.transition = '';
-    }, 300);
-}
-
-function updateThemeToggle(theme) {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        const icon = theme === 'dark' ? '🌞' : '🌙';
-        const text = theme === 'dark' ? 'Light' : 'Dark';
-        themeToggle.innerHTML = `<span>${icon}</span> ${text}`;
-    }
 }
 
 // ========================================
@@ -411,7 +369,6 @@ function clearValidationError(field) {
 // GLOBAL FUNCTIONS FOR INLINE USAGE
 // ========================================
 window.showAlert = showNotification;
-window.toggleTheme = toggleTheme;
 window.validateForm = function(form) {
     let isValid = true;
     const inputs = form.querySelectorAll('input, select, textarea');
@@ -429,12 +386,6 @@ window.validateForm = function(form) {
 // KEYBOARD SHORTCUTS
 // ========================================
 document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + D for dark mode toggle
-    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-        e.preventDefault();
-        toggleTheme();
-    }
-    
     // Escape key to close modals/menus
     if (e.key === 'Escape') {
         const sidebar = document.getElementById('sidebar');

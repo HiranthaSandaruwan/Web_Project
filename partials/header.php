@@ -5,11 +5,11 @@ if (!defined('BASE_PATH')) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>🔧 Hardware Request Manager</title>
+	<title>🔧 RepairTracker Pro</title>
 	<link rel="stylesheet" href="<?php echo asset('css/unified-styles.css'); ?>">
 	<script src="<?php echo asset('js/app.js'); ?>" defer></script>
 	<!-- Simple favicon (optional) -->
@@ -22,7 +22,7 @@ if (!defined('BASE_PATH')) {
 		<div class="sidebar-header">
 			<div class="sidebar-logo">
 				<span class="emoji">🔧</span>
-				<span class="text">HW Manager</span>
+				<span class="text">RepairTracker</span>
 			</div>
 		</div>
 		
@@ -108,9 +108,6 @@ if (!defined('BASE_PATH')) {
 				<h1 class="page-title"><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Hardware Requests'; ?></h1>
 			</div>
 			<div class="header-right">
-				<button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">
-					<span>🌙</span> Dark
-				</button>
 				<?php if (isset($_SESSION['user_id'])): ?>
 				<div class="user-info">
 					<div class="user-avatar"><?php echo strtoupper(substr($_SESSION['username'] ?? 'U', 0, 1)); ?></div>
@@ -118,7 +115,7 @@ if (!defined('BASE_PATH')) {
 						<div><?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?></div>
 						<small><?php echo ucfirst($_SESSION['role'] ?? 'user'); ?></small>
 					</div>
-					<a href="<?php echo url('auth/logout.php'); ?>" class="btn btn-sm" style="margin-left: 12px;">Logout</a>
+					<a href="<?php echo url('auth/logout.php'); ?>" class="btn btn-sm btn-secondary" style="margin-left: 12px;">Logout</a>
 				</div>
 				<?php endif; ?>
 			</div>

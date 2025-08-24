@@ -38,4 +38,17 @@ if (!function_exists('asset')) {
 
 // Load database connection once
 require_once BASE_PATH . '/db.php';
+
+// --------------------------------------------------
+// Global Auth Guard: Redirect all unauthenticated users
+// to the login page except when already on login.php.
+// (Public / guest viewing disabled per new requirement.)
+// --------------------------------------------------
+if (!isset($_SESSION['user_id'])) {
+    $currentScript = basename(parse_url($_SERVER['SCRIPT_NAME'] ?? '', PHP_URL_PATH));
+    if ($currentScript !== 'login.php') {
+        header('Location: ' . url('auth/login.php'));
+        exit;
+    }
+}
 ?>

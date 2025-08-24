@@ -66,37 +66,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<?php include BASE_PATH . '/partials/header.php'; ?>
+<?php include BASE_PATH . '/partials/auth_header.php'; ?>
 
-<div class="container">
-    <div style="max-width: 400px; margin: 0 auto;">
-        <h2>Login to Hardware Tracker</h2>
-        <p class="small">Use your credentials to access the repair tracking system</p>
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1 class="login-brand">🔧 RepairTracker</h1>
+        <p class="login-subtitle">Hardware Repair Management System</p>
         
-        <?php if ($msg) { echo '<div class="alert">' . htmlspecialchars($msg) . '</div>'; } ?>
+        <?php if ($msg) { echo '<div class="alert" style="margin-bottom:20px; padding:12px; background:var(--danger-bg); color:var(--text-primary); border-radius:var(--radius); font-size:14px;">' . htmlspecialchars($msg) . '</div>'; } ?>
         
-        <form method="post">
+        <form method="post" class="login-form">
             <div class="form-row">
-                <label>Username</label>
-                <input type="text" name="username" required placeholder="Enter your username">
+                <input type="text" name="username" autofocus required placeholder="👤 Username">
             </div>
-
             <div class="form-row">
-                <label>Password</label>
-                <input type="password" name="password" required placeholder="Enter your password">
+                <input type="password" name="password" required placeholder="🔒 Password">
             </div>
-
-            <button type="submit" class="btn-primary">Login</button>
+            <div class="login-actions">
+                <button type="submit" class="btn-primary">Log In</button>
+            </div>
         </form>
         
-        <div class="login-help mt">
-            <p class="small">
-                <strong>Demo Accounts:</strong><br>
-                User: uoc / uoc<br>
-                Admin: admin / admin
-            </p>
+        <div class="demo-info">
+            <strong>🧪 Demo Accounts:</strong><br>
+            👤 User: <code>uoc</code> / <code>uoc</code><br>
+            🛡️ Admin: <code>admin</code> / <code>admin</code>
         </div>
     </div>
 </div>
 
-<?php include BASE_PATH . '/partials/footer.php'; ?>
+<?php include BASE_PATH . '/partials/auth_footer.php'; ?>
